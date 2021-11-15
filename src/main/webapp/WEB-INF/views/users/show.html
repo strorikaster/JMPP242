@@ -50,10 +50,7 @@
 <!--                <span th:text="${user.getRole()}">VALUE</span>-->
 <!--            </div>-->
             <!--</span-->
-
-                <div th:each="role: ${user.roles}"
-                     th:text="fdgdf"></div>
-
+                     <div th:each="role : ${user.getRoles()}" th:text="${role.getRole()}"></div>
         </td>
     </tr>
 </table>

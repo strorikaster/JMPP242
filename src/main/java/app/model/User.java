@@ -9,10 +9,11 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "tab_users")
 public class User implements UserDetails {
 
     @Id
@@ -32,10 +33,16 @@ public class User implements UserDetails {
     @Column
     @Min(value = 0, message = "Age must be greater than 0")
     private int age;
-    @ManyToMany//(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    //@JoinColumn(name = "user_id")
-    //@JoinColumn(name = "role_id", referencedColumnName = "id")
-    private Set<Role> roles;
+//    @OneToMany(/*mappedBy = "user",*/ fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+//    @JoinColumn(name = "user_id")
+//    //@JoinColumn(name = "role_id", referencedColumnName = "id")
+@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE})
+@JoinTable(name = "tab_users_roles",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id"))
+private Set<Role> roles = new HashSet<>();
+
+    //private Set<Role> roles;
     @Column
     @NotEmpty(message = "Empty values not allowed")
     @Size(min = 2, max = 30, message = "Password should be between 2 and 30 character")

@@ -43,7 +43,7 @@ public class DataLoader{
         user1.setSurName("Zotov");
         user1.setEmail("zotov@mail.ru");
         user1.setAge(40);
-        user1.setRoles(Set.of(roleAdmin));
+        user1.setRoles(Set.of (roleAdmin));
 
         userService.save(user1);
 

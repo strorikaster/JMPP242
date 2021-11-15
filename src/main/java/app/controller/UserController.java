@@ -1,8 +1,10 @@
 package app.controller;
 
+import app.model.Role;
 import app.model.User;
 import app.repository.UserRepository;
 
+import app.service.RoleService;
 import app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/users")
@@ -18,6 +21,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+//    @Autowired
+//    private RoleService roleService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -38,6 +43,7 @@ public class UserController {
 
     @GetMapping("/new")
     public String newUser(@ModelAttribute("user") User user) {
+        //Set<Role> roles = (Set<Role>) role
         return "users/new";
     }
 
