@@ -32,13 +32,13 @@ public class User implements UserDetails {
     @Column
     @Min(value = 0, message = "Age must be greater than 0")
     private int age;
-    @OneToMany(/*mappedBy = "user",*/ fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @ManyToMany//(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    //@JoinColumn(name = "user_id")
     //@JoinColumn(name = "role_id", referencedColumnName = "id")
     private Set<Role> roles;
     @Column
     @NotEmpty(message = "Empty values not allowed")
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 character")
+    @Size(min = 2, max = 30, message = "Password should be between 2 and 30 character")
     private String password;
 
     public User() {

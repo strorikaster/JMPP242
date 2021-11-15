@@ -33,7 +33,7 @@ public class DataLoader{
         roleService.save(roleAdmin);
 
         Role roleUser = new Role();
-        roleAdmin.setRole("USER");
+        roleUser.setRole("USER");
         roleService.save(roleUser);
 
         User user1  = new User();
@@ -42,10 +42,10 @@ public class DataLoader{
         //user1.setFirstName("Alexey");
         user1.setSurName("Zotov");
         user1.setEmail("zotov@mail.ru");
-        user1.setRoles(Set.of(roleService.getRoleByName("ADMIN")));
+        user1.setAge(40);
+        user1.setRoles(Set.of(roleAdmin));
 
         userService.save(user1);
-
 
         User user2 = new User();
         user2.setName("Ivan");
@@ -53,7 +53,8 @@ public class DataLoader{
         //user2.setFirstName("Ivan");
         user2.setSurName("Petrov");
         user2.setEmail("petrov@mail.ru");
-        user2.setRoles(Set.of (roleService.getRoleByName("ADMIN"), roleService.getRoleByName("USER")));
+        user2.setAge(25);
+        user2.setRoles(Set.of (roleAdmin, roleUser));
 
         userService.save(user2);
 

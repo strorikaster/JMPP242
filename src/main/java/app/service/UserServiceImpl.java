@@ -14,12 +14,12 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public List<User> index() {
-        return userRepository.index();
+    public List<User> getAllUsers() {
+        return userRepository.getAllUsers();
     }
 
     @Override
-    public User show(int id) {
+    public User show(Long id) {
         return userRepository.show(id);
     }
 
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void delete(int id) {
+    public void delete(Long id) {
         userRepository.delete(id);
     }
 }

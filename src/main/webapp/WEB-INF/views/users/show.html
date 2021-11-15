@@ -36,6 +36,26 @@
             <span th:text="${user.getAge()}">VALUE</span>
         </td>
     </tr>
+    <tr>
+        <td>
+            <label>Password:</label>
+            <span th:text="${user.getPassword()}">VALUE</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Role(s):</label>
+            <!--<span th:text="${user.getRoles()}">VALUE</span-->
+<!--            <div th:each="user : ${users}">-->
+<!--                <span th:text="${user.getRole()}">VALUE</span>-->
+<!--            </div>-->
+            <!--</span-->
+
+                <div th:each="role: ${user.roles}"
+                     th:text="fdgdf"></div>
+
+        </td>
+    </tr>
 </table>
 
 <a th:href="@{/users/{id}/edit(id=${user.getId()})}">Edit</a>

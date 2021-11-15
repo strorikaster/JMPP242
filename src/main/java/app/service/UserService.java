@@ -3,9 +3,9 @@ import app.model.User;
 import java.util.List;
 
 public interface UserService {
-    List<User> index();
-    User show(int id);
+    List<User> getAllUsers();
+    User show(Long id);
     void save(User user);
     void update(User updatedUser);
-    void delete(int id);
+    void delete(Long id);
 }

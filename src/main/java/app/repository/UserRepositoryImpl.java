@@ -16,28 +16,28 @@ public class UserRepositoryImpl implements UserRepository {
     EntityManager entityManager;
 
 
-    public List<User> index() {
+    public List<User> getAllUsers() {
         return entityManager.createQuery("from User", User.class).getResultList();
     }
 
-    public User show(int id) {
+    public User show(Long id) {
         return entityManager.find(User.class, id);
     }
 
-    @Transactional
+
     public void save(User user) {
         entityManager.persist(user);
         entityManager.flush();
     }
 
-    @Transactional
+
     public void update(User updatedUser) {
           entityManager.merge(updatedUser);
           entityManager.flush();
     }
 
-    @Transactional
-    public void delete(int id) {
+
+    public void delete(Long id) {
         User user = show(id);
         entityManager.remove(user);
         entityManager.flush();

@@ -20,6 +20,7 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource("classpath:db.properties")
+@PropertySource("classpath:hibernate.properties")
 @EnableTransactionManagement
 @ComponentScan(value = "app")
 public class HiberConfig {

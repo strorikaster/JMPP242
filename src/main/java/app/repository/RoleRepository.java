@@ -11,5 +11,5 @@ public interface RoleRepository {
     void save(Role role);
     void update(Role updatedRole);
     void delete(int id);
-    Role getRoleByName(String name);
+   // Role getRoleByName(String name);
 }
