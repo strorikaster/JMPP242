@@ -47,6 +47,7 @@ public class DataLoader{
 
         userService.save(user1);
 
+
         User user2 = new User();
         user2.setName("Ivan");
         user2.setPassword("root");
