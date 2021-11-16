@@ -22,7 +22,7 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
-    public Role show(int id) {
+    public Role show(Long id) {
         return roleRepository.show(id);
     }
 
@@ -40,7 +40,7 @@ public class RoleServiceImpl implements RoleService{
 
     @Override
     @Transactional
-    public void delete(int id) {
+    public void delete(Long id) {
         roleRepository.delete(id);
     }
 

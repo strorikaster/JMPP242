@@ -18,7 +18,7 @@ public class Role implements GrantedAuthority {
     private String name;
 //    @ManyToMany(mappedBy = "roles")//(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
 //    private Set<User> users;
-@ManyToMany(mappedBy = "roles", cascade = {CascadeType.REFRESH, CascadeType.MERGE})
+@ManyToMany(mappedBy = "roles", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 private Set<User> users;
 
     public Role() {

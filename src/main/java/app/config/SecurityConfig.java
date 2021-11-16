@@ -4,6 +4,7 @@ import app.config.handler.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity(debug = true)
+@ComponentScan("app")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService; // сервис, с помощью которого тащим пользователя
     private final LoginSuccessHandler loginSuccessHandler;
@@ -25,9 +27,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        //auth.inMemoryAuthentication().withUser("ADMIN").password("ADMIN").roles("ADMIN");
 //        auth.userDetailsService();
 //    }
-public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, LoginSuccessHandler loginSuccessHandler) {
-    this.userDetailsService = userDetailsService;
-    this.loginSuccessHandler = loginSuccessHandler;
+    @Autowired
+    public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, LoginSuccessHandler loginSuccessHandler) {
+        this.userDetailsService = userDetailsService;
+        this.loginSuccessHandler = loginSuccessHandler;
 }
 
     @Autowired
@@ -36,7 +39,48 @@ public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService us
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+             .csrf()
+                .disable()
+        .authorizeRequests()
+                .antMatchers("users/new").not().fullyAuthenticated()
+                        .antMatchers("/admin/**").hasRole("ADMIN")
+                        .antMatchers("/users/show/id").hasAnyRole("USER", "ADMIN")
+                        .anyRequest().authenticated()
+                        .and()
+                                .formLogin()
+                                //.loginPage("users/login")
+                                        //.defaultSuccessUrl("/users")
+                                        .permitAll()
+                                        .and()
+                                        .logout()
+                                        .permitAll()
+                                        .logoutSuccessUrl("/");
+
+        httpSecurity.logout()
+                // разрешаем делать логаут всем
+                .permitAll()
+                // указываем URL логаута
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                // указываем URL при удачном логауте
+                .logoutSuccessUrl("/login?logout")
+                //выклчаем кроссдоменную секьюрность (на этапе обучения неважна)
+                .and().csrf().disable();
+
+
+
+
+//        http.formLogin().successHandler(loginSuccessHandler).loginProcessingUrl("/login").permitAll();
+//
+//        http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll();
+//
+//        http.authorizeRequests().antMatchers("/login").anonymous().
+//                antMatchers("/admin").access("hasAnyRole('ROLE_ADMIN')").
+//                antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN')").
+//                antMatchers("/user").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')").
+//                antMatchers("/user/**").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+
 //        http.formLogin()
 //                // указываем страницу с формой логина
 //                .loginPage("/users/login")
@@ -67,13 +111,13 @@ public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService us
 //                .antMatchers("/users/login").anonymous()
 //                // защищенные URL
 //                .antMatchers("/users/").access("hasAnyRole('ADMIN')").anyRequest().authenticated();
-        http.authorizeRequests()
-                .antMatchers("/users/login").permitAll() // доступность всем
-                .antMatchers("/users/").access("hasAnyRole('ROLE_ADMIN')") // разрешаем входить на /user пользователям с ролью User
-                .and()
-                .formLogin()
-                //.loginPage("/users/login")  // Spring сам подставит свою логин форму
-                .successHandler(loginSuccessHandler); // подключаем наш SuccessHandler для перенеправления по ролям
+//        httpSecurity.authorizeRequests()
+//                .antMatchers("/users/login").permitAll() // доступность всем
+//                .antMatchers("/users/").access("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')") // разрешаем входить на /user пользователям с ролью User
+//                .and()
+//                .formLogin()
+//                //.loginPage("/users/login")  // Spring сам подставит свою логин форму
+//                .successHandler(loginSuccessHandler); // подключаем наш SuccessHandler для перенеправления по ролям
 }
 
     @Bean

@@ -29,6 +29,15 @@
         <input type="text" th:field="*{password}" id="password"/>
         <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
         <br>
+            <div>
+                <p>Choose role: </p>
+                <select name="rolesSelected" multiple required size="6">
+                    <option disabled selected>select role</option>
+                    <div  th:each="role : ${allRoles}">
+                        <option th:text="${role.getRole()}" th:value="${role.getId()}" name="roles"/>
+                    </div>
+                </select>
+            </div>
         <input type="submit" value="Update user">
     </div>
 </form>
