@@ -36,6 +36,10 @@ public class DataLoader{
         roleUser.setRole("USER");
         roleService.save(roleUser);
 
+        Role roleVIP = new Role();
+        roleVIP.setRole("VIP");
+        roleService.save(roleVIP);
+
         User user1  = new User();
         user1.setName("Alex");
         user1.setPassword("root");
@@ -47,6 +51,7 @@ public class DataLoader{
 
         userService.save(user1);
 
+
         User user2 = new User();
         user2.setName("Ivan");
         user2.setPassword("root");
@@ -54,9 +59,20 @@ public class DataLoader{
         user2.setSurName("Petrov");
         user2.setEmail("petrov@mail.ru");
         user2.setAge(25);
-        user2.setRoles(Set.of (roleAdmin, roleUser));
+        user2.setRoles(Set.of (roleUser));
 
         userService.save(user2);
+
+        User user3 = new User();
+        user3.setName("Egor");
+        user3.setPassword("root");
+        //user2.setFirstName("Ivan");
+        user3.setSurName("Egorov");
+        user3.setEmail("egorov@mail.ru");
+        user3.setAge(27);
+        user3.setRoles(Set.of (roleVIP, roleAdmin));
+
+        userService.save(user3);
 
     }
 }
