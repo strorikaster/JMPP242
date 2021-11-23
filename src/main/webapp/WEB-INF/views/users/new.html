@@ -6,7 +6,8 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/users}" th:object="${user}">
+<!--form th:method="POST" th:action="@{/users}" th:object="${user}"-->
+<form th:method="POST" th:action="@{/admin/add}" th:object="${user}">
     <div>
         <label>Create new user:</label>
         <br>
@@ -30,10 +31,19 @@
         <input type="text" th:field="*{password}" id="password"/>
         <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
         <br>
-        <label for="roles">Enter user roles:</label>
-        <label>e.g. ADMIN or USER or both throw ","</label>
-        <input type="text" th:field="*{roles}" id="roles"/>
-        <div style="color:red" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">Roles error</div>
+        <!--label for="roles">Enter user roles:</label-->
+        <div>
+            <p>Choose role: </p>
+            <select name="rolesSelected" multiple required size="6">
+                <option disabled selected>select role</option>
+                <div  th:each="role : ${allRoles}">
+                    <option th:text="${role.getRole()}" th:value="${role.getId()}" name="roles"/>
+                </div>
+            </select>
+        </div>
+<!--        <label>e.g. ADMIN or USER or both throw ","</label>-->
+<!--        <input type="text" th:field="*{roles}" id="roles"/>-->
+<!--        <div style="color:red" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">Roles error</div>-->
         <br>
         <input type="submit" value="Create user">
     </div>

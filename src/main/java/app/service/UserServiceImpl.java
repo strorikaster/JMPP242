@@ -2,13 +2,16 @@ package app.service;
 import app.model.User;
 import app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -39,5 +42,16 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void delete(Long id) {
         userRepository.delete(id);
+    }
+
+    @Override
+    //@Transactional(readOnly = true)
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+        User user = userRepository.findByName(name);
+        if(user == null) {
+            throw new UsernameNotFoundException("User " + name + " not found!");
+        }
+
+        return user;
     }
 }

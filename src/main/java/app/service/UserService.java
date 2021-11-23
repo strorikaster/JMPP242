@@ -1,5 +1,7 @@
 package app.service;
 import app.model.User;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.List;
 
 public interface UserService {
@@ -8,4 +10,5 @@ public interface UserService {
     void save(User user);
     void update(User updatedUser);
     void delete(Long id);
+    UserDetails loadUserByUsername(String name);
 }

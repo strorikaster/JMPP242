@@ -21,7 +21,7 @@ public class RoleRepositoryImpl implements RoleRepository {
         return entityManager.createQuery("from Role", Role.class).getResultList();
     }
 
-    public Role show(int id) {
+    public Role show(Long id) {
         return entityManager.find(Role.class, id);
     }
 
@@ -38,19 +38,20 @@ public class RoleRepositoryImpl implements RoleRepository {
     }
 
 
-    public void delete(int id) {
+    public void delete(Long id) {
         Role role = show(id);
         entityManager.remove(role);
         entityManager.flush();
     }
 
-//    @Override
-//    public Role getRoleByName(String name) {
-//        //return entityManager.find(Role.class, name);
-//        return entityManager.createQuery(
-//                "SELECT r FROM Role r WHERE r.name LIKE :roleName")
-//                .setParameter("roleName", name)
-//                .setMaxResults(1)
-//                .getResultList();
+    @Override
+    public Role getRoleByName(String name) {
+        //return entityManager.find(Role.class, name);
+        Role role = (Role)entityManager.createQuery(
+                "SELECT r FROM Role r WHERE r.name LIKE :roleName")
+                .setParameter("roleName", name)
+                .setMaxResults(1)
+                .getSingleResult();
+        return role;
         }
-//}
+}
