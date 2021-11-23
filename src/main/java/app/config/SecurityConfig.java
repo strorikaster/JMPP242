@@ -63,10 +63,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 // указываем URL логаута
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                //.logout()
+                .logoutUrl("/logout")
                 // указываем URL при удачном логауте
-                .logoutSuccessUrl("/login?logout")
+                .logoutSuccessUrl("/login");
                 //выклчаем кроссдоменную секьюрность (на этапе обучения неважна)
-                .and().csrf().disable();
+                //.and().csrf().disable();
 
 
 

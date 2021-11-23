@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>User</title>
@@ -53,11 +53,17 @@
 </table>
 
 <!--a th:href="@{/users/{id}/edit(id=${user.getId()})}">Edit</a-->
+<div sec:authorize="hasAuthority('ADMIN')">
+    This content is only shown to administrators.
+
 <a th:href="@{/admin/{id}/edit(id=${user.getId()})}">Edit</a>
 
 <form th:method="DELETE" th:action="@{/admin/{id}(id=${user.getId()})}">
     <input type="submit" value="Delete user"/>
 </form>
+</div>
+<br>
 
+<a th:href="@{/logout}">Logout</a>
 </body>
 </html>

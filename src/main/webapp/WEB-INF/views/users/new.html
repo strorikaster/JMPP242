@@ -46,6 +46,8 @@
 <!--        <div style="color:red" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">Roles error</div>-->
         <br>
         <input type="submit" value="Create user">
+        <br>
+        <a th:href="@{/logout}">Logout</a>
     </div>
 </form>
 

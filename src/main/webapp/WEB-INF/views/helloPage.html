@@ -6,15 +6,20 @@
     <title></title>
 </head>
 <body>
-<!--div>
-    <th:block th:include="menuPage">Menu</th:block>
-</div-->
+
+<!--<div>-->
+<!--    <th:block th:include="menuPage">Menu</th:block>-->
+<!--</div>-->
+
 <div>
     <th:block th:each="msg : ${messages}">
         <h1 th:text="${msg}"></h1>
     </th:block>
-    <br>
-    <a th:href="@{/logout}">Logout</a>
 </div>
+
+<form th:if="${#request.userPrincipal == null}" th:action="@{/login}">
+    <button type="submit">Войти</button>
+</form>
+
 </body>
 </html>
