@@ -10,6 +10,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -33,19 +34,14 @@ public class User implements UserDetails {
     @Column
     @Min(value = 0, message = "Age must be greater than 0")
     private int age;
-//    @OneToMany(/*mappedBy = "user",*/ fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-//    @JoinColumn(name = "user_id")
-//    //@JoinColumn(name = "role_id", referencedColumnName = "id")
-@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE})
-@JoinTable(name = "tab_users_roles",
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE})
+    @JoinTable(name = "tab_users_roles",
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_id"))
-private Set<Role> roles = new HashSet<>();
-
-    //private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
     @Column
     @NotEmpty(message = "Empty values not allowed")
-    @Size(min = 2, max = 30, message = "Password should be between 2 and 30 character")
+    @Size(min = 2, max = 256, message = "Password should be between 2 and 30 character")
     private String password;
 
     public User() {
@@ -148,4 +144,37 @@ private Set<Role> roles = new HashSet<>();
     public boolean isEnabled() {
         return true;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(age, user.age) &&
+                Objects.equals(surName, user.surName) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(roles, user.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, password, name, surName, email, roles);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + age + '\'' +
+                ", lastName='" + surName + '\'' +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
+
 }

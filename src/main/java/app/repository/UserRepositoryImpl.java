@@ -1,9 +1,7 @@
 package app.repository;
 
 import app.model.User;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -44,6 +42,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     public User findByName(String name) {
-        return entityManager.find(User.class, name);
+       return (User)entityManager.createQuery("SELECT u FROM User u where u.name = :name").setParameter("name", name).getSingleResult();
     }
 }

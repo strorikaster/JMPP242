@@ -1,9 +1,7 @@
 package app.service;
 
 import app.model.Role;
-import app.model.User;
 import app.repository.RoleRepository;
-import app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +20,7 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
-    public Role show(int id) {
+    public Role show(Long id) {
         return roleRepository.show(id);
     }
 
@@ -40,12 +38,12 @@ public class RoleServiceImpl implements RoleService{
 
     @Override
     @Transactional
-    public void delete(int id) {
+    public void delete(Long id) {
         roleRepository.delete(id);
     }
 
-//    @Override
-//    public Role getRoleByName(String name) {
-//        return roleRepository.getRoleByName(name);
-//    }
+    @Override
+    public Role getRoleByName(String name) {
+        return roleRepository.getRoleByName(name);
+    }
 }
